@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 97vh;
+            background-color: rgb(34, 34, 34);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            justify-content: space-evenly;
+        }
+
+        #watch {
+            display: inline-flex;
+            margin-top: 1vh;
+            height: 25vh;
+            width: 50vw;
+            background: black;
+            border-radius: 2vh;
+            border: 1vh solid rgb(92 87 87);
+            color: rgb(123, 255, 0);
+            font-size: 7em;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #line {
+            margin-top: 1vh;
+            height: 25vh;
+            width: 50vw;
+            background: black;
+            position: absolute;
+            z-index: 1;
+            display: flex;
+            justify-content: space-evenly;
+            opacity: .3;
+            border-radius: 2vh;
+        }
+
+        .line {
+            height: 25vh;
+            width: 2px;
+            background-color: rgb(92 87 87);
+            z-index: 1;
+        }
+
+        #verline {
+            margin-top: 1vh;
+            height: 25vh;
+            width: 50vw;
+            background: black;
+            position: absolute;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            opacity: .3;
+            border-radius: 2vh;
+        }
+
+        .ver {
+            height: 2px;
+            width: 50vw;
+            background-color: rgb(92 87 87);
+            z-index: 1;
+        }
+
+        #but {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        button {
+            height: 7vh;
+            width: 10vw;
+            font-size: xx-large;
+            background-color: rgb(66, 66, 66);
+            color: white;
+            font-weight: bold;
+        }
+
+        #lap_data::before {
+            content: "";
+            height: 50vh;
+            width: 40vw;
+            background-image: url("https://media.istockphoto.com/id/514570034/fr/photo/circuit-int%C3%A9gr%C3%A9.jpg?s=1024x1024&w=is&k=20&c=O-ENa47xKV1YRltKpUEbEXXus1tac-ZQO-KwOONQy2c=");
+            background-size: contain;
+            position: absolute;
+            opacity: .3;
+            border-radius: 2vh;
+        }
+
+        #lap_data {
+            height: 50vh;
+            width: 40vw;
+            border-radius: 2vh;
+            border: 1vh solid #2d2a59;
+            font-size: 4em;
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            color: white;
+            overflow: auto;
+        }
+
+        #start_pause {
+            background-color: red;
+            border-bottom-left-radius: 1.5vh;
+            border-top-left-radius: 1.5vh;
+        }
+
+        #reset {
+            border-bottom-right-radius: 1.5vh;
+            border-top-right-radius: 1.5vh;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="watch">0 : 0 : 0
+        <div id="line">
+            <div id="line1" class="line"></div>
+            <div id="line2" class="line"></div>
+            <div id="line3" class="line"></div>
+            <div id="line4" class="line"></div>
+            <div id="line5" class="line"></div>
+        </div>
+
+        <div id="verline">
+            <div id="verline1" class="ver"></div>
+            <div id="verline2" class="ver"></div>
+            <div id="verline3" class="ver"></div>
+
+        </div>
+    </div>
+    <div id="but">
+        <button id="start_pause" onclick="start_pause()">Start</button>
+        <button id="lap" onclick="lap()">Lap</button>
+        <button id="reset" onclick="stop()">Reset</button>
+    </div>
+    <div id="lap_data">
+
+    </div>
+
+</body>
+
+<script>
+    let watch = document.getElementById('watch');
+    let lap_data = document.getElementById('lap_data');
+    let start_but = document.getElementById('start_pause');
+    var hour = 0, min = 0, sec = 0, set_id;
+
+    function watch_count() {
+        set_id = setInterval(() => {
+            if (sec < 60) sec++;
+            else {
+                sec = 0;
+                min++;
+            }
+
+            if (min >= 60) {
+                min = 0;
+                hour++;
+            }
+
+            watch.innerHTML = hour;
+            watch.innerHTML += " : " + min;
+            watch.innerHTML += " : " + sec;
+
+        }, 1000)
+
+    }
+
+    function stop() {
+        hour = 0;
+        min = 0;
+        sec = 0;
+        clearInterval(set_id);
+        watch.innerHTML = hour;
+        watch.innerHTML += " : " + min;
+        watch.innerHTML += " : " + sec;
+        if (start_but.innerHTML == "Pause") {
+            start_but.innerText = 'Start';
+        }
+
+        lap_data.innerHTML = "";
+    }
+
+    function start_pause() {
+
+        if (start_but.innerHTML == "Start") {
+            start_but.innerText = 'Pause';
+            watch_count();
+        }
+
+        else {
+            start_but.innerText = 'Start';
+            watch.innerHTML = hour;
+            clearInterval(set_id);
+            watch.innerHTML += " : " + min;
+            watch.innerHTML += " : " + sec;
+        }
+    }
+
+
+    function lap() {
+        lap_data.innerHTML += hour + " : " + min + ' : ' + sec + "<br/>";
+    }
+</script>
+
+</html>
